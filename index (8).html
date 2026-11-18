@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f8dce9">
+<title>For Iza — Princess Day</title>
+<style>
+:root{--pink:#f6bfd5;--rose:#d96f9b;--plum:#56334f;--cream:#fff8fb}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--plum);font-family:Georgia,"Times New Roman",serif;background:radial-gradient(circle at 15% 15%,#fff 0 2px,transparent 3px),radial-gradient(circle at 80% 25%,#fff9 0 2px,transparent 3px),linear-gradient(145deg,#fff0f6,#f8dce9 48%,#e8d8f5);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:34px 34px}
+.wrap{width:min(920px,92%);margin:auto;padding:28px 0 54px;position:relative}
+.topline{text-align:center;letter-spacing:.24em;text-transform:uppercase;font:600 11px Arial,sans-serif;color:#a65c80}
+.card{position:relative;margin:20px auto 0;padding:clamp(26px,6vw,62px) clamp(20px,6vw,64px);border:1px solid #fff;background:linear-gradient(155deg,#fffafcdd,#fff1f8e8);border-radius:32px;box-shadow:0 24px 70px #9b5d7a26;text-align:center;overflow:hidden}
+.card:before,.card:after{content:"✧";position:absolute;color:#e8a6c2;font-size:34px;opacity:.8}
+.card:before{top:22px;left:25px}.card:after{right:25px;bottom:22px}
+.crown{font-size:58px;display:inline-block;filter:drop-shadow(0 5px 7px #d58aaa55);animation:float 3s ease-in-out infinite}
+h1{font-size:clamp(38px,8vw,70px);line-height:1.02;margin:16px 0 12px;font-weight:normal;color:#9e5277}
+.name{font-style:italic;color:#c45e8d}
+.subtitle{font:500 14px Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#ad7893;margin:0 0 25px}
+.divider{width:92px;height:1px;background:#e7b4ca;margin:25px auto}
+.intro{font-size:clamp(18px,3vw,22px);line-height:1.7;max-width:600px;margin:0 auto;color:#68445d}
+button{border:0;border-radius:999px;padding:15px 25px;background:linear-gradient(110deg,#d979a1,#b86d9b);color:white;font:600 14px Arial,sans-serif;letter-spacing:.04em;box-shadow:0 9px 22px #bd70944d;cursor:pointer;transition:transform .2s,box-shadow .2s}
+button:hover{transform:translateY(-3px);box-shadow:0 13px 25px #bd709466}
+button:focus-visible{outline:3px solid #7d4267;outline-offset:4px}
+.gift{margin-top:28px}
+.hidden-message{max-height:0;opacity:0;overflow:hidden;transition:max-height .8s ease,opacity .7s ease,margin .7s ease}
+.hidden-message.open{max-height:420px;opacity:1;margin-top:28px}
+.note{max-width:590px;margin:auto;padding:23px 22px;border-radius:22px;background:#fff9fc;border:1px solid #f1cbdc;font-size:20px;line-height:1.65}
+.note strong{color:#b65e88;font-weight:normal;font-style:italic}
+.small{font:13px Arial,sans-serif;color:#a2768d;margin-top:20px}
+.footer{text-align:center;margin:24px auto 0;color:#966c84;font:12px Arial,sans-serif;letter-spacing:.08em}
+.floaties{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.floaty{position:absolute;bottom:-40px;opacity:0;animation:rise var(--dur) linear forwards;font-size:var(--size)}
+@keyframes float{50%{transform:translateY(-9px) rotate(3deg)}}
+@keyframes rise{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:.8}100%{transform:translateY(-110vh) rotate(35deg);opacity:0}}
+@media(max-width:520px){.wrap{padding-top:20px}.card{border-radius:25px}.crown{font-size:48px}.note{font-size:18px}.card:before{top:13px;left:14px}.card:after{right:14px;bottom:13px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="floaties" id="floaties" aria-hidden="true"></div>
+<main class="wrap">
+  <div class="topline">A tiny surprise made just for you</div>
+  <section class="card" aria-labelledby="title">
+    <div class="crown" aria-hidden="true">👑</div>
+    <h1 id="title">Happy Princess Day,<br><span class="name">Iza</span>!</h1>
+    <p class="subtitle">18 November · A little magic for you</p>
+    <div class="divider"></div>
+    <p class="intro">Today seemed like the perfect excuse to remind one very lovely person that she deserves a little extra magic. ✨</p>
+    <div class="gift">
+      <button id="reveal" type="button" aria-expanded="false" aria-controls="message">Open your little surprise 💗</button>
+    </div>
+    <div class="hidden-message" id="message" aria-live="polite">
+      <div class="note">
+        I hope your day is as sweet as your smile and as lovely as your heart. 💕<br><br>
+        And just so you know… being a princess probably comes with responsibilities — like smiling a little more today. I don't make the rules. 😉<br><br>
+        <strong>Have the sweetest Princess Day, Iza.</strong>
+      </div>
+      <p class="small">P.S. Your royal highness, you're allowed to be extra cute today. 👸</p>
+    </div>
+  </section>
+  <div class="footer">SENT WITH A LITTLE SPARKLE & A LOT OF GOOD VIBES ♡</div>
+</main>
+<script>
+const btn=document.getElementById('reveal');
+const message=document.getElementById('message');
+const floaties=document.getElementById('floaties');
+let opened=false;
+btn.addEventListener('click',()=>{
+  opened=!opened;
+  message.classList.toggle('open',opened);
+  btn.setAttribute('aria-expanded',String(opened));
+  btn.textContent=opened?'Aww, one more sparkle? ✨':'Open your little surprise 💗';
+  if(opened) burst();
+});
+function burst(){
+  const symbols=['♡','✧','💗','✨','🌸'];
+  for(let i=0;i<24;i++){
+    const el=document.createElement('span');
+    el.className='floaty';
+    el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+    el.style.left=(Math.random()*100)+'%';
+    el.style.setProperty('--dur',(3+Math.random()*3)+'s');
+    el.style.setProperty('--size',(14+Math.random()*18)+'px');
+    el.addEventListener('animationend',()=>el.remove());
+    floaties.appendChild(el);
+  }
+}
+</script>
+</body>
+</html>
